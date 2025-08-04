@@ -1,17 +1,30 @@
-<script setup lang="ts">
-import { DropdownMenuRoot, type DropdownMenuRootEmits, type DropdownMenuRootProps, useForwardPropsEmits } from 'reka-ui'
+<script setup>
 
-const props = defineProps<DropdownMenuRootProps>()
-const emits = defineEmits<DropdownMenuRootEmits>()
+const emits = defineEmits(['update:modelValue']);
 
-const forwarded = useForwardPropsEmits(props, emits)
+defineProps({
+    label: String,
+    name: String,
+    length: {
+        default: 6,
+        type: Number,
+        required: true
+    },
+    nonvalueitem: String,
+    items: Array,
+    valueKey: String,
+    itemKey: String
+});
+
 </script>
-
 <template>
-  <DropdownMenuRoot
-    data-slot="dropdown-menu"
-    v-bind="forwarded"
-  >
-    <slot />
-  </DropdownMenuRoot>
+    <div :class="`col-md-${length}`">
+        <div class="form-floating form-floating-outline">
+            <select @change="emits('update:modelValue', $event.target.value)" :name="name" class="form-select" required>
+                <option value="">{{ nonvalueitem }}</option>
+                <option v-for="item in items" :key="item.id" :value="item[valueKey]">{{ item[itemKey] }}</option>
+            </select>
+            <label>{{ label }}</label>
+        </div>
+        </div>
 </template>

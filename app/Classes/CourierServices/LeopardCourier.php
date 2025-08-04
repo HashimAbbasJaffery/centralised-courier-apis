@@ -2,6 +2,7 @@
 
 namespace App\Classes\CourierServices;
 use App\Interfaces\Courier;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 
@@ -25,7 +26,7 @@ class LeopardCourier implements Courier
 
         return $response->json();
     }
-    public function createOrder(array $data): array {
+    public function createOrder(array $data): array|null {
         $endpoint = "{$this->endpoint}/bookPacket/format/json";
 
         $response = Http::post($endpoint, [

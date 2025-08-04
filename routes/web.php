@@ -1,6 +1,7 @@
 <?php
 
 use App\Classes\CourierServices\LeopardCourier;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -51,6 +52,8 @@ Route::get("track", function() {
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
+
+Route::get("booking/create", [BookingController::class, "create"])->name("booking.create");
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');

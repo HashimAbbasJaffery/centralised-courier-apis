@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PlatformResource;
 use App\Models\Platform;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class PlatformController extends Controller
     public function get() {
         $platforms = Platform::all();
 
-        return $platforms;
+        return PlatformResource::collection($platforms);
     }
 
     public function store(Request $request) {

@@ -16,6 +16,10 @@ Route::post("platform/create", [PlatformController::class, "store"])->name("plat
 Route::post("platform/{platform}/update", [PlatformController::class, "update"])->name("platform.update");
 Route::post("platform/{platform}/delete", [PlatformController::class, "destroy"])->name("platform.delete");
 
+Route::get("/materials", [\App\Http\Controllers\MaterialController::class, "get"])->name("materials.get");
+Route::get("/vendors", [\App\Http\Controllers\VendorController::class, "get"])->name("vendors.get");
+
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
