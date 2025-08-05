@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Courier\CourierController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PlatformController;
+use App\Http\Controllers\ShipmentController;
 use App\Models\Platform;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +22,7 @@ Route::post("platform/{platform}/delete", [PlatformController::class, "destroy"]
 Route::get("/materials", [\App\Http\Controllers\MaterialController::class, "get"])->name("materials.get");
 Route::get("/vendors", [\App\Http\Controllers\VendorController::class, "get"])->name("vendors.get");
 
+Route::get("shipments", [ShipmentController::class, "index"])->name("shipments.index");
 
 Route::get('/user', function (Request $request) {
     return $request->user();

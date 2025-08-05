@@ -42,7 +42,7 @@ Route::get("cancel-order", function() {
 });
 
 Route::get("track", function() {
-    $trackingNumber = "KI7505326975";
+    $trackingNumber = "KI7505375916";
 
     $courier = resolve("leopard")->track($trackingNumber);
 
@@ -54,6 +54,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get("booking/create", [BookingController::class, "create"])->name("booking.create");
+Route::get("bookings", [BookingController::class, "index"])->name("booking.index");
+Route::get("booking/{booking:tracking_no}", [BookingController::class, "show"])->name("booking.show");
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');

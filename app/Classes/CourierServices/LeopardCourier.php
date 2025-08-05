@@ -26,7 +26,7 @@ class LeopardCourier implements Courier
 
         return $response->json();
     }
-    public function createOrder(array $data): array|null {
+    public function createOrder(array $data): array {
         $endpoint = "{$this->endpoint}/bookPacket/format/json";
 
         $response = Http::post($endpoint, [
@@ -67,6 +67,17 @@ class LeopardCourier implements Courier
             "track_numbers" => $trackingNumber
         ]);
 
+
+        return $response->json();
+    }
+    public function getLastStatus(String $trackingNumber) {
+        $endpoint = "{$this->endpoint}/trackBookedPacket/format/json/";
+
+        $response = Http::get($endpoint, [
+            "api_key" => $this->secretKey,
+            "api_password" => $this->password,
+            "track_numbers" => $trackingNumber
+        ]);
 
         return $response->json();
     }

@@ -74,6 +74,10 @@ class CourierController extends Controller
         $tracking_number = $request->tracking_number ?? "KI7505327195";
         $response = resolve($service)->cancelOrder($tracking_number);
 
+        $shipment = Shipment::where("tracking_number", $tracking_number)->update([
+            "is_cancelled" => true,
+        ]);
+
         return response()->json($response);
     }
     public function track(Request $request, Courier $courier) {

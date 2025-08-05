@@ -60,6 +60,11 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
 
 
+<!-- Include JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+
     <!-- Page CSS -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
