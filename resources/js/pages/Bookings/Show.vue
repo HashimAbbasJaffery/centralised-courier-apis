@@ -5,9 +5,11 @@ import axios from 'axios'
 
 const shipment = ref<Record<string, any>>({})
 const tracking_number = route().params.booking || 'N/A';
+const is_fetching_data = ref(true);
 
 onMounted(async () => {
   const response = await axios.get(route('order.track', { courier: 'leopard', tracking_number: tracking_number }))
+  is_fetching_data.value = false;
   console.log(response);
   shipment.value = response.data.packet_list[0] ?? {}
   console.log(shipment.value);
@@ -17,10 +19,30 @@ const back = () => {
     window.history.back();
 }
 </script>
+<style scoped>
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid black;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
 
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+</style>
 <template>
-  <div class="container">
-    <h3>📦 Packet Details for Tracking Number: {{ shipment.tracking_number || 'N/A' }}</h3>
+  <div v-if="!is_fetching_data" class="container">
+    <h3>📦 Packet Details for Tracking Number: {{ shipment.track_number || 'N/A' }}</h3>
 
     <table class="custom-table">
       <tbody>
@@ -43,6 +65,9 @@ const back = () => {
     </table>
 
     <button @click="back" class="btn-back">🔙 Back to Manage Booked Packets</button>
+  </div>
+  <div v-else style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh;">
+    <span class="loader"></span>
   </div>
 </template>
 

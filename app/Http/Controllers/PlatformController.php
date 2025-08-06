@@ -24,7 +24,7 @@ class PlatformController extends Controller
             "name" => $request->platform
         ]);
 
-        return response()->json(["message" => "Platform has been created!"]);
+        return response()->json(["message" => "Platform has been created!"], 201);
     }
     public function update(Request $request, Platform $platform) {
         $validated = $request->validate([

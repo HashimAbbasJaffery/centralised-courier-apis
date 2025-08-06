@@ -57,6 +57,18 @@ Route::get("booking/create", [BookingController::class, "create"])->name("bookin
 Route::get("bookings", [BookingController::class, "index"])->name("booking.index");
 Route::get("booking/{booking:tracking_no}", [BookingController::class, "show"])->name("booking.show");
 
+Route::get("materials", function() {
+    return Inertia::render("Materials/Index");
+})->name("materials.index");
+
+Route::get("platforms", function() {
+    return Inertia::render("Platforms/Index");
+})->name("platforms.index");
+
+Route::get("vendors", function() {
+    return Inertia::render("Vendors/Index");
+})->name("vendors.index");
+
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

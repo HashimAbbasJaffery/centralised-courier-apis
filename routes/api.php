@@ -20,7 +20,16 @@ Route::post("platform/{platform}/update", [PlatformController::class, "update"])
 Route::post("platform/{platform}/delete", [PlatformController::class, "destroy"])->name("platform.delete");
 
 Route::get("/materials", [\App\Http\Controllers\MaterialController::class, "get"])->name("materials.get");
+Route::post("/material/create", [\App\Http\Controllers\MaterialController::class, "store"])->name("material.add");
+Route::post("/material/{material}/delete", [\App\Http\Controllers\MaterialController::class, "destroy"])->name("material.delete");
+Route::post("/material/{material}/update", [\App\Http\Controllers\MaterialController::class, "update"])->name("material.update");
+
+
+
 Route::get("/vendors", [\App\Http\Controllers\VendorController::class, "get"])->name("vendors.get");
+Route::post("/vendor/create", [\App\Http\Controllers\VendorController::class, "store"])->name("vendor.create");
+Route::post("/vendor/{vendor}/update", [\App\Http\Controllers\VendorController::class, "update"])->name("vendor.update");
+Route::post("/vendor/{vendor}/delete", [\App\Http\Controllers\VendorController::class, "destroy"])->name("vendor.delete");
 
 Route::get("shipments", [ShipmentController::class, "index"])->name("shipments.index");
 

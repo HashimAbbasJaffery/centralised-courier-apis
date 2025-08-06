@@ -4,6 +4,7 @@ import Input from '@/components/ui/input/Input.vue';
 import { get } from '@vueuse/core';
 import axios from 'axios';
 import { computed, onMounted, ref, watch } from 'vue';
+import { router } from '@inertiajs/vue3';
 
 import Multiselect from 'vue-multiselect';
 
@@ -144,6 +145,8 @@ async function submit(event) {
             advance_payment: item.advance_payment
         }))
     });
+
+    successModalButton.click(); // Trigger the success modal
     } catch (error) {
 
         return;
@@ -165,6 +168,10 @@ onMounted(async () => {
     }
 });
 
+function goToIndexPage() {
+    router.visit(route('booking.index'));
+}
+
 
 watch(selectedCity, (newValue) => {
     console.log('Selected city:', newValue);
@@ -179,6 +186,28 @@ watch(selectedMaterial, (newValue) => {
 
 </style>
 <template>
+    <button data-bs-toggle="modal" id="successModalButton" data-bs-target="#successModal" style="display: none;">Testing</button>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="modal-body">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+
+        <div class="text-success mb-3">
+          <i class="bi bi-check-circle" style="font-size: 3rem;"></i>
+        </div>
+
+        <h4 class="mb-2">Shipment has been created</h4>
+        <p class="text-muted">Your shipment was added successfully.</p>
+
+        <button type="button" @click="goToIndexPage" class="btn btn-success mt-3" data-bs-dismiss="modal">
+          Okay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div class="container-xxl container-p-y flex-grow-1">
         <form class="card-body" method="POST" @submit="submit">
             <!-- Bootstrap Multi-column Form Layout -->

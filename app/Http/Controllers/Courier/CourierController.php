@@ -76,6 +76,7 @@ class CourierController extends Controller
 
         $shipment = Shipment::where("tracking_number", $tracking_number)->update([
             "is_cancelled" => true,
+            "status" => "Cancelled"
         ]);
 
         return response()->json($response);
