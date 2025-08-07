@@ -7,6 +7,7 @@ const platform_name = ref('');
 const material_price = ref('');
 const toDelete = ref(null);
 const toEdit = ref(null);
+const is_loading = ref(true);
 
 async function getPlatforms() {
     try {
@@ -100,6 +101,7 @@ const initializeDataTable = () => {
 onMounted(async () => {
     await getPlatforms();
     initializeDataTable();
+    is_loading.value = false;
 });
 
 
@@ -113,8 +115,30 @@ watch(platforms, () => {
 });
 
 </script>
+
+<style scoped>
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid black;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+</style>
 <template>
-    <div class="container-xxl container-p-y flex-grow-1">
+    <div v-show="!is_loading" class="container-xxl container-p-y flex-grow-1">
         <div class="card">
             <div class="card-header d-flex align-items-center justify-content-between ps-0 pb-0">
                 <h5 class="card-header">Manage Platforms</h5>
@@ -142,6 +166,9 @@ watch(platforms, () => {
                 </table>
             </div>
         </div>
+    </div>
+    <div v-show="is_loading" style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh;">
+        <span class="loader"></span>
     </div>
 
 

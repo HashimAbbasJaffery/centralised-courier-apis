@@ -30,6 +30,7 @@ class ShipmentController extends Controller
                             ->when($date_to, function($query) use($date_to) {
                                 return $query->where('created_at', '<=', $date_to);
                             })
+                            ->latest()
                             ->get();
 
         return response()->json(["data" => $shipments]);

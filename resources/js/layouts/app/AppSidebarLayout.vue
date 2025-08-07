@@ -1,19 +1,61 @@
 <script setup>
 import { nextTick, onMounted } from 'vue';
 import { Menu } from 'lucide-vue-next';
+import { Link } from '@inertiajs/vue3';
+
+
+function initSidebarMenu() {
+  const layoutMenu = document.getElementById("layout-menu");
+  if (!layoutMenu) return;
+
+  const isHorizontalLayout = layoutMenu.classList.contains("menu-horizontal");
+
+  menu = new window.Menu(layoutMenu, {
+    orientation: isHorizontalLayout ? "horizontal" : "vertical",
+    closeChildren: !!isHorizontalLayout,
+    showDropdownOnHover: localStorage.getItem("templateCustomizer-" + templateName + "--ShowDropdownOnHover") === "true"
+  });
+
+  window.Helpers.scrollToActive(false);
+  window.Helpers.mainMenu = menu;
+
+  // Bind menu toggle buttons
+  document.querySelectorAll(".layout-menu-toggle").forEach(el => {
+    el.addEventListener("click", e => {
+      e.preventDefault();
+      window.Helpers.toggleCollapsed();
+
+      if (config.enableMenuLocalStorage && !window.Helpers.isSmallScreen()) {
+        try {
+          localStorage.setItem("templateCustomizer-" + templateName + "--LayoutCollapsed", String(window.Helpers.isCollapsed()));
+        } catch (err) {
+          console.warn("LocalStorage Error", err);
+        }
+      }
+    });
+  });
+
+  // Reattach Waves.js (optional, only if you see visual glitches)
+  if (typeof Waves !== 'undefined') {
+    Waves.init();
+    Waves.attach(".menu-vertical .menu-item .menu-link.menu-toggle");
+  }
+
+  // Optional: Reinitialize PerfectScrollbar
+  const menuInner = layoutMenu.querySelector(".menu-inner");
+  const shadowEl = document.querySelector(".menu-inner-shadow");
+  if (menuInner && shadowEl) {
+    menuInner.addEventListener("ps-scroll-y", function () {
+      shadowEl.style.display = this.querySelector(".ps__thumb-y").offsetTop ? "block" : "none";
+    });
+  }
+}
+
 
 
 onMounted(async () => {
       await nextTick();
-
-  const menu = document.querySelector('#layout-menu');
-  if (window.Menu && typeof window.Menu === 'function' && menu) {
-    new window.Menu(menu);
-  }
-
-  document.querySelector('.layout-menu-toggle').addEventListener('click', () => {
-  document.body.classList.toggle('layout-menu-collapsed');
-});
+initSidebarMenu();
 })
 
 </script>
@@ -78,37 +120,36 @@ onMounted(async () => {
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item <?php echo $current_page == '/Leopard_courier/create_order.php' ? 'active' : ''; ?>">
-                                <a href="/Leopard_courier/create_order.php" class="menu-link">
-                                    <div>Booked A Packet</div>
-                                </a>
+                                <Link :href="route('booking.create')" class="menu-link">
+                                    <div>Book A Packet</div>
+                                </Link>
                             </li>
                             <li class="menu-item <?php echo $current_page == '/Leopard_courier/manage_booked_packet.php' ? 'active' : ''; ?>">
-                                <a href="/Leopard_courier/manage_booked_packet.php" class="menu-link">
+                                <Link :href="route('booking.index')" class="menu-link">
                                     <div>Manage Booked Packet</div>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </li>
 
 
                     <li class="menu-item <?php echo $current_page == '/Leopard_courier/manage_vendor.php' ? 'active' : ''; ?>">
-                        <a href="/Leopard_courier/vendor/manage_vendor.php" class="menu-link">
+                        <Link :href="route('vendors.index')" class="menu-link">
                             <i class="menu-icon tf-icons ri-box-3-line"></i>
                             <div>Manage Vendor</div>
-                        </a>
+                        </Link>
                     </li>
                     <li class="menu-item <?php echo $current_page == '/Leopard_courier/manage_platforms.php' ? 'active' : ''; ?>">
-                        <a href="/Leopard_courier/platform/manage_platforms.php" class="menu-link">
+                        <Link :href="route('platforms.index')" class="menu-link">
                             <i class="menu-icon tf-icons ri-box-3-line"></i>
-                            <div>Manage Platform</div>
-                        </a>
+                            <div>Manage Platform</div>`
+                        </Link>
                     </li>
                     <li class="menu-item <?php echo $current_page == '/Leopard_courier/manage_packaging_materials.php' ? 'active' : ''; ?>">
-                        <a href="/Leopard_courier/packaging_material/manage_packaging_materials.php"
-                            class="menu-link">
+                        <Link :href="route('materials.index')" class="menu-link">
                             <i class="menu-icon tf-icons ri-box-3-line"></i>
                             <div>Manage Packaging Material</div>
-                        </a>
+                        </Link>
                     </li>
 
                 </ul>

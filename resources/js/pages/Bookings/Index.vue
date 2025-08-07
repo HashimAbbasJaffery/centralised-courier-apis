@@ -14,6 +14,7 @@ const filters = reactive({
   destination_city: ''
 });
 const toCancel = ref(null);
+const is_loading = ref(true);
 
 // Use axios to fetch shipments dataa
 const fetchShipments = async () => {
@@ -81,6 +82,7 @@ onMounted(async () => {
     $('#destination_city').select2().on('change', (e) => {
       filters.destination_city = $(e.target).val() as string;
     });
+    
 
     $('#daterange').daterangepicker({
       locale: { format: 'YYYY-MM-DD' }
@@ -89,6 +91,8 @@ onMounted(async () => {
     });
   });
   })
+
+  is_loading.value = false;
 });
 
 watch(filters, async (newFilters) => {
@@ -127,6 +131,28 @@ function formatDate(dateString: string | undefined) {
 
 
 </script>
+
+<style scoped>
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid black;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+</style>
 <template>
 <button data-bs-toggle="modal" data-bs-target="#cancelConfirmModal" id="cancelModalPopup" style="display: none;">Testing</button>
 <div class="modal fade" id="cancelConfirmModal" tabindex="-1" aria-hidden="true">
@@ -155,7 +181,7 @@ function formatDate(dateString: string | undefined) {
   </div>
 </div>
 
-    <div class="container-xxl flex-grow-1 container-p-y">
+    <div v-if="!is_loading" class="container-xxl flex-grow-1 container-p-y">
     <div class="card p-3 mb-4">
         <form id="filterForm">
         <div class="row">
@@ -251,5 +277,9 @@ function formatDate(dateString: string | undefined) {
         </div>
     </div>
     </div>
+
+  <div v-else style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh;">
+    <span class="loader"></span>
+  </div>
 </template>
 

@@ -50,7 +50,8 @@ class CourierController extends Controller
             "special_instructions" => $request->special_instructions ?? "",
             "slip_link" => $response['slip_link'] ?? "",
             "courier_id" => $courier->id,
-            "order_id" => $request->order_id
+            "order_id" => $request->order_id,
+            "status" => "Pickup Request not Send"
         ]);
 
         $items = $request->items ?? [];
