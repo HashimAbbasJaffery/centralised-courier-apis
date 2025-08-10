@@ -388,21 +388,22 @@ watch(selectedMaterial, (newValue) => {
 
             <div class="card mb-4 p-3">
                 <h6>3. Items Details</h6>
-                <table class="table-bordered table" id="itemsTable">
-                    <thead>
-                        <tr>
-                            <th>Vendor</th>
-                            <th>Platform</th>
-                            <th>Product Name</th>
-                            <th>Cost</th>
-                            <th>Selling</th>
-                            <th>Packaging Material</th>
-                            <th>Total Amount</th>
-                            <th>Profit</th>
-                            <th>Advance Payment</th>
-                            <th><button type="button" class="btn btn-sm btn-success" id="addRow" @click="addRow">+</button></th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="itemsTable">
+                        <thead>
+                            <tr>
+                                <th>Vendor</th>
+                                <th>Platform</th>
+                                <th>Product Name</th>
+                                <th>Cost</th>
+                                <th>Selling</th>
+                                <th>Packaging Material</th>
+                                <th>Total Amount</th>
+                                <th>Profit</th>
+                                <th>Advance Payment</th>
+                                <th><button type="button" class="btn btn-sm btn-success" id="addRow" @click="addRow">+</button></th>
+                            </tr>
+                        </thead>
                     <tbody>
                         <tr class="item-row" v-for="item in items" :key="item.id">
                             <td>
@@ -459,7 +460,8 @@ watch(selectedMaterial, (newValue) => {
                             <td><button type="button" class="btn btn-sm btn-danger removeRow" @click="removeRow(item.id)">-</button></td>
                         </tr>
                     </tbody>
-                </table>
+                    </table>
+                </div>
 
                 <div class="pt-6" style="display: flex; justify-content: flex-start">
                     <button
